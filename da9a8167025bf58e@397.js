@@ -20,7 +20,21 @@ Inputs.range([-90, 90], {
 })
 )}
 
-function* _4(d3,size,styles,graticule,countries,zones,color,path,projection,filteredDestinations,categoryColorLookup)
+function* _4(
+  d3,
+  size,
+  styles,
+  graticule,
+  countries,
+  zones,
+  color,
+  path,
+  projection,
+  filteredDestinations,
+  categoryColorLookup,
+  destinationCategories,
+  destinationInfoPanel
+)
 {
   const svg = d3
     .create("svg")
@@ -62,16 +76,36 @@ function* _4(d3,size,styles,graticule,countries,zones,color,path,projection,filt
 
   const pointsLayer = svg.append("g").attr("class", "places");
 
-  pointsLayer
+  const categoryMap = new Map(destinationCategories.map((d) => [d.key, d]));
+
+  const pointSelection = pointsLayer
     .selectAll("circle")
     .data(filteredDestinations, (d) => d.name)
     .enter()
     .append("circle")
     .attr("class", "place-dot")
     .attr("r", 4)
-    .attr("fill", (d) => categoryColorLookup[d.category] ?? "#111")
+    .attr("fill", (d) => categoryColorLookup[d.category] ?? "#111");
+
+  pointSelection
     .append("title")
     .text((d) => `${d.name} — ${d.country}`);
+
+  pointSelection.on("click", (event, d) => {
+    const cat = categoryMap.get(d.category);
+    destinationInfoPanel.innerHTML = `
+      <div class="selection-panel__content">
+        <p class="selection-panel__eyebrow">已選擇的地點</p>
+        <h3>${cat?.emoji ?? "📍"}${d.name}</h3>
+        <p class="selection-panel__meta">${d.country}</p>
+        <p class="selection-panel__tag">
+          <span class="legend-swatch" style="background:${cat?.color ?? "#ccc"}"></span>
+          ${cat?.label ?? d.category}
+        </p>
+      </div>
+    `;
+    event.stopPropagation();
+  });
 
   function render() {
     sphere.attr("d", path);
@@ -148,7 +182,7 @@ md`## Data`
 )}
 
 function _destinationsIntro(md){return(
-md`使用下方核取方塊切換「前50大必訪城市」、「聯合國文化遺產」、「經典飯店」與「知名美術館」。清單會同步更新，並以不同顏色標示在地球上。`
+md`使用下方下拉式選單切換「前50大必訪城市」、「聯合國文化遺產」、「經典飯店」與「知名美術館」。清單同步更新，點擊地球上的彩色點會跳出該地資訊。`
 )}
 
 function _destinationCategories(){return(
@@ -289,11 +323,17 @@ Object.fromEntries(destinationCategories.map((d) => [d.key, d.color]))
 )}
 
 function _viewof_visibleCategories(Inputs,destinationCategories){return(
-Inputs.checkbox(destinationCategories.map((d) => d.key), {
-  value: destinationCategories.map((d) => d.key),
-  label: "顯示的分類",
-  format: (key) => destinationCategories.find((d) => d.key === key)?.label ?? key
-})
+Inputs.select(
+  ["全部" , ...destinationCategories.map((d) => d.key)],
+  {
+    value: "全部",
+    label: "篩選分類",
+    format: (key) =>
+      key === "全部"
+        ? "全部分類"
+        : destinationCategories.find((d) => d.key === key)?.label ?? key
+  }
+)
 )}
 
 function _visibleCategories(Generators, viewof_visibleCategories){return(
@@ -301,7 +341,9 @@ function _visibleCategories(Generators, viewof_visibleCategories){return(
 )}
 
 function _filteredDestinations(destinations,visibleCategories){return(
-destinations.filter((d) => visibleCategories.includes(d.category))
+  visibleCategories === "全部"
+    ? destinations
+    : destinations.filter((d) => d.category === visibleCategories)
 )}
 
 function _destinationLegend(html,destinationCategories){return(
@@ -317,6 +359,13 @@ html`<div>
     )
     .join("")}
 </div>`
+)}
+
+function _destinationInfoPanel(html){return(
+  (() => {
+    const panel = html`<div class="selection-panel">點擊地圖上的彩色點，這裡會顯示地點名稱、國家與分類。</div>`;
+    return panel;
+  })()
 )}
 
 function _destinationList(html,filteredDestinations,destinationCategories){return(
@@ -474,6 +523,38 @@ function _styles(){return(
   background: #f8fafc;
   border: 1px solid #e2e8f0;
 }
+.selection-panel {
+  margin: 0.75rem 0;
+  padding: 0.9rem 1rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #f8fafc, #eef2ff);
+  color: #0f172a;
+}
+.selection-panel__content h3 {
+  margin: 0.25rem 0;
+  font-size: 1.1rem;
+}
+.selection-panel__meta {
+  margin: 0;
+  color: #475569;
+}
+.selection-panel__eyebrow {
+  margin: 0;
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #475569;
+}
+.selection-panel__tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.2rem 0.55rem;
+  border-radius: 999px;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+}
 `
 )}
 
@@ -522,7 +603,7 @@ export default function define(runtime, observer) {
   main.variable(observer("longitude")).define("longitude", ["Generators", "viewof longitude"], (G, _) => G.input(_));
   main.variable(observer("viewof latitude")).define("viewof latitude", ["Inputs"], _latitude);
   main.variable(observer("latitude")).define("latitude", ["Generators", "viewof latitude"], (G, _) => G.input(_));
-  main.variable(observer()).define(["d3","size","styles","graticule","countries","zones","color","path","projection","filteredDestinations","categoryColorLookup"], _4);
+  main.variable(observer()).define(["d3","size","styles","graticule","countries","zones","color","path","projection","filteredDestinations","categoryColorLookup","destinationCategories","destinationInfoPanel"], _4);
   main.variable(observer()).define(["md"], _5);
   main.variable(observer()).define(["md"], _6);
   main.variable(observer()).define(["md"], _7);
@@ -538,6 +619,7 @@ export default function define(runtime, observer) {
   main.variable(observer("visibleCategories")).define("visibleCategories", ["Generators", "viewof visibleCategories"], (G, _) => G.input(_));
   main.define("filteredDestinations", ["destinations","visibleCategories"], _filteredDestinations);
   main.variable(observer("destinationLegend")).define("destinationLegend", ["html","destinationCategories"], _destinationLegend);
+  main.variable(observer("destinationInfoPanel")).define("destinationInfoPanel", ["html"], _destinationInfoPanel);
   main.variable(observer("destinationList")).define("destinationList", ["html","filteredDestinations","destinationCategories"], _destinationList);
   main.variable(observer("land")).define("land", ["topojson","world"], _land);
   main.variable(observer("countries")).define("countries", ["topojson","world"], _countries);

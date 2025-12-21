@@ -1,7 +1,7 @@
 import define1 from "./f69f0d836059a035@761.js";
 
 function _1(md){return(
-md`# 時區與目的地地球儀\n將全球時區、必訪城市、聯合國文化遺產、經典飯店與知名美術館整合在同一顆可旋轉的地球上。`
+md`# 時區與目的地地球儀\n將全球時區、必訪城市、聯合國文化遺產與知名美術館整合在同一顆可旋轉的地球上。`
 )}
 
 function _longitude(Inputs){return(
@@ -204,14 +204,13 @@ md`## Data`
 )}
 
 function _destinationsIntro(md){return(
-md`使用下方下拉式選單切換「前50大必訪城市」、「聯合國文化遺產」、「經典飯店」與「知名美術館」。清單同步更新，點擊地球上的彩色點會跳出該地資訊。`
+md`使用下方下拉式選單切換「前10大必訪城市」、「聯合國文化遺產」與「知名美術館」。清單同步更新，點擊地球上的彩色點會跳出該地資訊。`
 )}
 
 function _destinationCategories(){return(
 [
-  { key: "city", label: "前50大必訪城市", color: "#f97316", emoji: "🏙️" },
+  { key: "city", label: "前10大必訪城市", color: "#f97316", emoji: "🏙️" },
   { key: "heritage", label: "聯合國文化遺產", color: "#eab308", emoji: "🏛️" },
-  { key: "hotel", label: "經典飯店", color: "#22c55e", emoji: "🏨" },
   { key: "museum", label: "知名美術館", color: "#3b82f6", emoji: "🖼️" }
 ]
 )}
@@ -227,47 +226,7 @@ function _cityStops(){return(
   { name: "杜拜", country: "阿聯", lat: 25.2048, lon: 55.2708 },
   { name: "新加坡", country: "新加坡", lat: 1.3521, lon: 103.8198 },
   { name: "香港", country: "中國", lat: 22.3193, lon: 114.1694 },
-  { name: "伊斯坦堡", country: "土耳其", lat: 41.0082, lon: 28.9784 },
-  { name: "曼谷", country: "泰國", lat: 13.7563, lon: 100.5018 },
-  { name: "雪梨", country: "澳洲", lat: -33.8688, lon: 151.2093 },
-  { name: "洛杉磯", country: "美國", lat: 34.0522, lon: -118.2437 },
-  { name: "舊金山", country: "美國", lat: 37.7749, lon: -122.4194 },
-  { name: "里約熱內盧", country: "巴西", lat: -22.9068, lon: -43.1729 },
-  { name: "開普敦", country: "南非", lat: -33.9249, lon: 18.4241 },
-  { name: "馬拉喀什", country: "摩洛哥", lat: 31.6295, lon: -7.9811 },
-  { name: "雅典", country: "希臘", lat: 37.9838, lon: 23.7275 },
-  { name: "阿姆斯特丹", country: "荷蘭", lat: 52.3676, lon: 4.9041 },
-  { name: "維也納", country: "奧地利", lat: 48.2082, lon: 16.3738 },
-  { name: "布拉格", country: "捷克", lat: 50.0755, lon: 14.4378 },
-  { name: "布達佩斯", country: "匈牙利", lat: 47.4979, lon: 19.0402 },
-  { name: "里斯本", country: "葡萄牙", lat: 38.7223, lon: -9.1393 },
-  { name: "雷克雅維克", country: "冰島", lat: 64.1466, lon: -21.9426 },
-  { name: "溫哥華", country: "加拿大", lat: 49.2827, lon: -123.1207 },
-  { name: "墨西哥城", country: "墨西哥", lat: 19.4326, lon: -99.1332 },
-  { name: "布宜諾斯艾利斯", country: "阿根廷", lat: -34.6037, lon: -58.3816 },
-  { name: "哈瓦那", country: "古巴", lat: 23.1136, lon: -82.3666 },
-  { name: "多倫多", country: "加拿大", lat: 43.6532, lon: -79.3832 },
-  { name: "芝加哥", country: "美國", lat: 41.8781, lon: -87.6298 },
-  { name: "華盛頓特區", country: "美國", lat: 38.9072, lon: -77.0369 },
-  { name: "西雅圖", country: "美國", lat: 47.6062, lon: -122.3321 },
-  { name: "首爾", country: "韓國", lat: 37.5665, lon: 126.978 },
-  { name: "上海", country: "中國", lat: 31.2304, lon: 121.4737 },
-  { name: "北京", country: "中國", lat: 39.9042, lon: 116.4074 },
-  { name: "德里", country: "印度", lat: 28.6139, lon: 77.209 },
-  { name: "齋浦爾", country: "印度", lat: 26.9124, lon: 75.7873 },
-  { name: "開羅", country: "埃及", lat: 30.0444, lon: 31.2357 },
-  { name: "奈洛比", country: "肯亞", lat: -1.2921, lon: 36.8219 },
-  { name: "尚吉巴", country: "坦尚尼亞", lat: -6.1659, lon: 39.2026 },
-  { name: "瑪列", country: "馬爾地夫", lat: 4.1755, lon: 73.5093 },
-  { name: "皇后鎮", country: "紐西蘭", lat: -45.0312, lon: 168.6626 },
-  { name: "奧克蘭", country: "紐西蘭", lat: -36.8485, lon: 174.7633 },
-  { name: "峇里島", country: "印尼", lat: -8.6705, lon: 115.2126 },
-  { name: "普吉", country: "泰國", lat: 7.8804, lon: 98.3923 },
-  { name: "吉隆坡", country: "馬來西亞", lat: 3.139, lon: 101.6869 },
-  { name: "杜哈", country: "卡達", lat: 25.2854, lon: 51.531 },
-  { name: "馬斯喀特", country: "阿曼", lat: 23.5859, lon: 58.4059 },
-  { name: "火奴魯魯", country: "美國", lat: 21.3069, lon: -157.8583 },
-  { name: "安克拉治", country: "美國", lat: 61.2181, lon: -149.9003 }
+  { name: "伊斯坦堡", country: "土耳其", lat: 41.0082, lon: 28.9784 }
 ]
 )}
 
@@ -288,25 +247,6 @@ function _heritageSites(){return(
   { name: "聖米歇爾山", country: "法國", lat: 48.6361, lon: -1.5115 },
   { name: "京都古都文化財", country: "日本", lat: 35.0394, lon: 135.7292 },
   { name: "威尼斯潟湖", country: "義大利", lat: 45.4408, lon: 12.3155 }
-]
-)}
-
-function _signatureHotels(){return(
-[
-  { name: "帆船酒店", country: "阿聯", lat: 25.1412, lon: 55.1853 },
-  { name: "濱海灣金沙酒店", country: "新加坡", lat: 1.2834, lon: 103.8607 },
-  { name: "巴黎麗池酒店", country: "法國", lat: 48.8686, lon: 2.3285 },
-  { name: "紐約廣場飯店", country: "美國", lat: 40.7644, lon: -73.9742 },
-  { name: "新加坡萊佛士酒店", country: "新加坡", lat: 1.2941, lon: 103.8536 },
-  { name: "倫敦薩伏伊酒店", country: "英國", lat: 51.51, lon: -0.12 },
-  { name: "烏代浦爾湖宮酒店", country: "印度", lat: 24.5787, lon: 73.6827 },
-  { name: "東京安縵酒店", country: "日本", lat: 35.6852, lon: 139.7671 },
-  { name: "比佛利山飯店", country: "美國", lat: 34.081, lon: -118.4137 },
-  { name: "俄羅斯飯店", country: "義大利", lat: 41.9099, lon: 12.4773 },
-  { name: "馬穆尼亞酒店", country: "摩洛哥", lat: 31.6232, lon: -7.9965 },
-  { name: "波拉波拉四季酒店", country: "法屬玻里尼西亞", lat: -16.5004, lon: -151.7415 },
-  { name: "瑞典冰旅館", country: "瑞典", lat: 67.8527, lon: 20.6017 },
-  { name: "長頸鹿莊園", country: "肯亞", lat: -1.3626, lon: 36.7845 }
 ]
 )}
 
@@ -331,11 +271,10 @@ function _artMuseums(){return(
 ]
 )}
 
-function _destinations(cityStops,heritageSites,signatureHotels,artMuseums){return(
+function _destinations(cityStops,heritageSites,artMuseums){return(
 [
   ...cityStops.map((d) => ({ ...d, category: "city" })),
   ...heritageSites.map((d) => ({ ...d, category: "heritage" })),
-  ...signatureHotels.map((d) => ({ ...d, category: "hotel" })),
   ...artMuseums.map((d) => ({ ...d, category: "museum" }))
 ]
 )}
@@ -649,9 +588,8 @@ export default function define(runtime, observer) {
   main.define("destinationCategories", _destinationCategories);
   main.define("cityStops", _cityStops);
   main.define("heritageSites", _heritageSites);
-  main.define("signatureHotels", _signatureHotels);
   main.define("artMuseums", _artMuseums);
-  main.define("destinations", ["cityStops","heritageSites","signatureHotels","artMuseums"], _destinations);
+  main.define("destinations", ["cityStops","heritageSites","artMuseums"], _destinations);
   main.define("categoryColorLookup", ["destinationCategories"], _categoryColorLookup);
   main.variable(observer("viewof visibleCategories")).define("viewof visibleCategories", ["Inputs","destinationCategories"], _viewof_visibleCategories);
   main.variable(observer("visibleCategories")).define("visibleCategories", ["Generators", "viewof visibleCategories"], (G, _) => G.input(_));

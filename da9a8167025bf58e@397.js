@@ -33,7 +33,8 @@ function* _4(
   filteredDestinations,
   categoryColorLookup,
   destinationCategories,
-  destinationInfoPanel
+  destinationInfoPanel,
+  invalidation
 )
 {
   const svg = d3
@@ -143,10 +144,29 @@ function* _4(
   let startRotation;
   let startPosition;
   const sensitivity = 0.5;
+  let autoRotate = true;
+  let lastTick = Date.now();
+
+  const spin = d3.timer(() => {
+    if (!autoRotate) {
+      lastTick = Date.now();
+      return;
+    }
+    const now = Date.now();
+    const elapsed = now - lastTick;
+    const rotation = projection.rotate();
+    rotation[0] += elapsed * 0.02;
+    projection.rotate(rotation);
+    lastTick = now;
+    render();
+  });
+
+  invalidation?.then(() => spin.stop());
 
   const drag = d3
     .drag()
     .on("start", (event) => {
+      autoRotate = false;
       startRotation = projection.rotate();
       startPosition = [event.x, event.y];
       svg.classed("dragging", true);
@@ -168,6 +188,7 @@ function* _4(
     .on("end", () => {
       startPosition = null;
       svg.classed("dragging", false);
+      autoRotate = true;
     });
 
   yield svg.node();
@@ -639,7 +660,7 @@ export default function define(runtime, observer) {
   main.variable(observer("longitude")).define("longitude", ["Generators", "viewof longitude"], (G, _) => G.input(_));
   main.variable(observer("viewof latitude")).define("viewof latitude", ["Inputs"], _latitude);
   main.variable(observer("latitude")).define("latitude", ["Generators", "viewof latitude"], (G, _) => G.input(_));
-  main.variable(observer()).define(["d3","size","styles","graticule","countries","zones","color","path","projection","filteredDestinations","categoryColorLookup","destinationCategories","destinationInfoPanel"], _4);
+  main.variable(observer()).define(["d3","size","styles","graticule","countries","zones","color","path","projection","filteredDestinations","categoryColorLookup","destinationCategories","destinationInfoPanel","invalidation"], _4);
   main.variable(observer()).define(["md"], _5);
   main.variable(observer()).define(["md"], _6);
   main.variable(observer()).define(["md"], _7);

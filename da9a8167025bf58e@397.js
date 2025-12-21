@@ -133,9 +133,12 @@ function* _4(
     graticulePath.attr("d", path);
     countriesPath.attr("d", path);
     zonesPath.attr("d", path);
-    pointSelection
-      .attr("cx", (d) => (projection([d.lon, d.lat]) ?? [-10, -10])[0])
-      .attr("cy", (d) => (projection([d.lon, d.lat]) ?? [-10, -10])[1]);
+    pointSelection.each(function (d) {
+      const projected = projection([d.lon, d.lat]);
+      const x = projected?.[0] ?? -10;
+      const y = projected?.[1] ?? -10;
+      d3.select(this).attr("cx", x).attr("cy", y);
+    });
   }
 
   function applyRotation(rotation) {

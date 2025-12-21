@@ -89,7 +89,11 @@ function* _4(
 
   pointSelection
     .append("title")
-    .text((d) => `${d.name} — ${d.country}`);
+    .text((d) => {
+      const cat = categoryMap.get(d.category);
+      const label = cat?.label ?? d.category;
+      return `${label}：${d.name}`;
+    });
 
   pointSelection.on("click", (event, d) => {
     const cat = categoryMap.get(d.category);

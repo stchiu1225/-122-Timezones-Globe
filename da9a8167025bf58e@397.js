@@ -133,12 +133,9 @@ function* _4(
     graticulePath.attr("d", path);
     countriesPath.attr("d", path);
     zonesPath.attr("d", path);
-    pointsLayer
-      .selectAll("circle")
-      .attr("transform", (d) => {
-        const projected = projection([d.lon, d.lat]);
-        return projected ? `translate(${projected[0]},${projected[1]})` : "translate(-10,-10)";
-      });
+    pointSelection
+      .attr("cx", (d) => (projection([d.lon, d.lat]) ?? [-10, -10])[0])
+      .attr("cy", (d) => (projection([d.lon, d.lat]) ?? [-10, -10])[1]);
   }
 
   function applyRotation(rotation) {

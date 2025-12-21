@@ -141,6 +141,11 @@ function* _4(
       });
   }
 
+  function applyRotation(rotation) {
+    projection.rotate(rotation);
+    render();
+  }
+
   let startRotation;
   let startPosition;
   const sensitivity = 0.5;
@@ -156,9 +161,8 @@ function* _4(
     const elapsed = now - lastTick;
     const rotation = projection.rotate();
     rotation[0] += elapsed * 0.02;
-    projection.rotate(rotation);
+    applyRotation(rotation);
     lastTick = now;
-    render();
   });
 
   invalidation?.then(() => spin.stop());
@@ -182,8 +186,7 @@ function* _4(
         startRotation[2] || 0
       ];
 
-      projection.rotate(rotation);
-      render();
+      applyRotation(rotation);
     })
     .on("end", () => {
       startPosition = null;

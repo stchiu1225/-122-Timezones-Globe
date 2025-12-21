@@ -204,14 +204,14 @@ md`## Data`
 )}
 
 function _destinationsIntro(md){return(
-md`使用下方下拉式選單切換「前10大必訪城市」、「聯合國文化遺產」與「知名美術館」。清單同步更新，點擊地球上的彩色點會跳出該地資訊。`
+md`使用下方下拉式選單切換各分類的前10大地點：「前10大必訪城市」、「前10大聯合國文化遺產」與「前10大知名美術館」。清單同步更新，點擊地球上的彩色點會跳出該地資訊。`
 )}
 
 function _destinationCategories(){return(
 [
   { key: "city", label: "前10大必訪城市", color: "#f97316", emoji: "🏙️" },
-  { key: "heritage", label: "聯合國文化遺產", color: "#eab308", emoji: "🏛️" },
-  { key: "museum", label: "知名美術館", color: "#3b82f6", emoji: "🖼️" }
+  { key: "heritage", label: "前10大聯合國文化遺產", color: "#eab308", emoji: "🏛️" },
+  { key: "museum", label: "前10大知名美術館", color: "#3b82f6", emoji: "🖼️" }
 ]
 )}
 
@@ -241,12 +241,7 @@ function _heritageSites(){return(
   { name: "佩特拉古城", country: "約旦", lat: 30.3285, lon: 35.4444 },
   { name: "巨石陣", country: "英國", lat: 51.1789, lon: -1.8262 },
   { name: "加拉巴哥群島", country: "厄瓜多", lat: -0.9538, lon: -90.9656 },
-  { name: "塞倫蓋蒂國家公園", country: "坦尚尼亞", lat: -2.3333, lon: 34.8333 },
-  { name: "黃石國家公園", country: "美國", lat: 44.428, lon: -110.5885 },
-  { name: "大堡礁", country: "澳洲", lat: -18.2871, lon: 147.6992 },
-  { name: "聖米歇爾山", country: "法國", lat: 48.6361, lon: -1.5115 },
-  { name: "京都古都文化財", country: "日本", lat: 35.0394, lon: 135.7292 },
-  { name: "威尼斯潟湖", country: "義大利", lat: 45.4408, lon: 12.3155 }
+  { name: "塞倫蓋蒂國家公園", country: "坦尚尼亞", lat: -2.3333, lon: 34.8333 }
 ]
 )}
 
@@ -261,13 +256,7 @@ function _artMuseums(){return(
   { name: "阿姆斯特丹國立博物館", country: "荷蘭", lat: 52.36, lon: 4.885218 },
   { name: "故宮博物院", country: "臺灣", lat: 25.1024, lon: 121.5485 },
   { name: "現代藝術博物館", country: "美國", lat: 40.7614, lon: -73.9776 },
-  { name: "畢爾包古根漢美術館", country: "西班牙", lat: 43.2686, lon: -2.9339 },
-  { name: "芝加哥藝術博物館", country: "美國", lat: 41.8796, lon: -87.6237 },
-  { name: "中國國家博物館", country: "中國", lat: 39.904, lon: 116.4075 },
-  { name: "開羅埃及博物館", country: "埃及", lat: 30.0478, lon: 31.2336 },
-  { name: "蒂帕帕國家博物館", country: "紐西蘭", lat: -41.2906, lon: 174.782 },
-  { name: "聖保羅藝術博物館", country: "巴西", lat: -23.5615, lon: -46.6559 },
-  { name: "維多利亞國家美術館", country: "澳洲", lat: -37.8226, lon: 144.9689 }
+  { name: "畢爾包古根漢美術館", country: "西班牙", lat: 43.2686, lon: -2.9339 }
 ]
 )}
 

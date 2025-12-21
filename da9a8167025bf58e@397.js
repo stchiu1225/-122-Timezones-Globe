@@ -149,28 +149,10 @@ function* _4(
   let startRotation;
   let startPosition;
   const sensitivity = 0.5;
-  let autoRotate = true;
-  let lastTick = Date.now();
-
-  const spin = d3.timer(() => {
-    if (!autoRotate) {
-      lastTick = Date.now();
-      return;
-    }
-    const now = Date.now();
-    const elapsed = now - lastTick;
-    const rotation = projection.rotate();
-    rotation[0] += elapsed * 0.02;
-    applyRotation(rotation);
-    lastTick = now;
-  });
-
-  invalidation?.then(() => spin.stop());
 
   const drag = d3
     .drag()
     .on("start", (event) => {
-      autoRotate = false;
       startRotation = projection.rotate();
       startPosition = [event.x, event.y];
       svg.classed("dragging", true);
@@ -191,7 +173,6 @@ function* _4(
     .on("end", () => {
       startPosition = null;
       svg.classed("dragging", false);
-      autoRotate = true;
     });
 
   yield svg.node();

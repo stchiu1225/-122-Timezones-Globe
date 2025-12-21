@@ -189,18 +189,8 @@ Use [evansiroky/timezone-boundary-builder](https://github.com/evansiroky/timezon
 [IANA time zones database](https://www.iana.org/time-zones)`
 )}
 
-function _6(md){return(
-md`## Technical
-The latest [2025b release](https://github.com/evansiroky/timezone-boundary-builder/releases/tag/2025b) of [evansiroky/timezone-boundary-builder](https://github.com/evansiroky/timezone-boundary-builder) returns 444 different timezones. This is too much to load, and we need a script to merge these zones based on their UTC-offset.
+function _6(md){return(md``)}
 
-The timezones were listed in [timezone-names.json](https://github.com/evansiroky/timezone-boundary-builder/releases/download/2025b/timezone-names.json). I wrote a basic script (based on this [stackoverflow solution](https://stackoverflow.com/a/68593283)) to compute the current UTC offset (as of 23rd of September 2025) and associate it to each timezone in a CSV file.
-
-Using [mapshaper](https://mapshaper.org/) and the tutorial [Join spreadsheet data with polygon map](https://handsondataviz.org/mapshaper.html#join-spreadsheet-data-with-polygon-map), I associated the UTC offset to each area and merged the 444 timezones into 38 geometric features :
-\`\`\`
-$ -join timezones_offsets keys=tzid,tzid
-$ -dissolve fields=utc_offset,minutes_offset
-\`\`\``
-)}
 
 function _7(md){return(
 md`## Data`
@@ -367,17 +357,13 @@ function _graticule(d3){return(
 d3.geoGraticule10()
 )}
 
-function _12(md){return(
-md`## Dimensions`
-)}
+function _12(md){return(md``)}
 
 function _size(width){return(
 Math.min(600, width)
 )}
 
-function _14(md){return(
-md`## Geo`
-)}
+function _14(md){return(md``)}
 
 function _projection(d3,size,longitude,latitude){return(
 d3
@@ -390,9 +376,7 @@ function _path(d3,projection){return(
 d3.geoPath(projection)
 )}
 
-function _17(md){return(
-md`## Styles`
-)}
+function _17(md){return(md``)}
 
 function _styles(){return(
 `
@@ -527,10 +511,7 @@ function _styles(){return(
 `
 )}
 
-function _19(md){return(
-md`### Color scale
-We would like to reproduce the color scale of [Time Zone Map](https://www.timeanddate.com/time/map/).`
-)}
+function _19(md){return(md``)}
 
 function _base_colors(){return(
 ["#fb8d59", "#fde090", "#a8d696", "#7dbdd1", "#ab8ac1", "#ed6362"]
@@ -548,9 +529,7 @@ function _color(d3,color_interpolator){return(
 d3.scaleSequential([0, 300], color_interpolator)
 )}
 
-function _24(md){return(
-md`## Imports`
-)}
+function _24(md){return(md``)}
 
 function _timezones(FileAttachment){return(
 FileAttachment("timezones@2.json").json()

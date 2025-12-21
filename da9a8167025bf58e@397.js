@@ -78,6 +78,13 @@ function* _4(
 
   const categoryMap = new Map(destinationCategories.map((d) => [d.key, d]));
 
+  d3.select("body").selectAll(".place-tooltip").remove();
+  const tooltip = d3
+    .select("body")
+    .append("div")
+    .attr("class", "place-tooltip")
+    .style("display", "none");
+
   const pointSelection = pointsLayer
     .selectAll("circle")
     .data(filteredDestinations, (d) => d.name)
@@ -88,11 +95,20 @@ function* _4(
     .attr("fill", (d) => categoryColorLookup[d.category] ?? "#111");
 
   pointSelection
-    .append("title")
-    .text((d) => {
+    .on("mouseenter", (event, d) => {
       const cat = categoryMap.get(d.category);
       const label = cat?.label ?? d.category;
-      return `${label}：${d.name}`;
+      tooltip
+        .style("display", "block")
+        .html(`<strong>${label}</strong><div>${d.name}</div>`);
+    })
+    .on("mousemove", (event) => {
+      tooltip
+        .style("left", `${event.pageX + 12}px`)
+        .style("top", `${event.pageY - 12}px`);
+    })
+    .on("mouseleave", () => {
+      tooltip.style("display", "none");
     });
 
   pointSelection.on("click", (event, d) => {
@@ -479,6 +495,22 @@ function _styles(){return(
   stroke-width: 1px;
   fill-opacity: 0.95;
   pointer-events: auto;
+}
+.place-tooltip {
+  position: absolute;
+  background: rgba(15, 23, 42, 0.9);
+  color: #f8fafc;
+  padding: 0.4rem 0.55rem;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+  pointer-events: none;
+  line-height: 1.3;
+}
+.place-tooltip strong {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 2px;
 }
 .legend-row {
   display: inline-flex;

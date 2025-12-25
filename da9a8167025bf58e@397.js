@@ -192,8 +192,151 @@ Use [evansiroky/timezone-boundary-builder](https://github.com/evansiroky/timezon
 function _6(md){return(md``)}
 
 
-function _7(md){return(
-md`## Data`
+function _7(md){return(md``)}
+
+function _destinationsIntro(md){return(
+md`使用下方下拉式選單切換各分類的前10大地點：「前10大必訪城市」、「前10大聯合國文化遺產」與「前10大知名美術館」。清單同步更新，點擊地球上的彩色點會跳出該地資訊。`
+)}
+
+function _destinationCategories(){return(
+[
+  { key: "city", label: "前10大必訪城市", color: "#f97316", emoji: "🏙️" },
+  { key: "heritage", label: "前10大聯合國文化遺產", color: "#eab308", emoji: "🏛️" },
+  { key: "museum", label: "前10大知名美術館", color: "#3b82f6", emoji: "🖼️" }
+]
+)}
+
+function _cityStops(){return(
+[
+  { name: "巴黎", country: "法國", lat: 48.8566, lon: 2.3522 },
+  { name: "倫敦", country: "英國", lat: 51.5074, lon: -0.1278 },
+  { name: "紐約", country: "美國", lat: 40.7128, lon: -74.006 },
+  { name: "東京", country: "日本", lat: 35.6762, lon: 139.6503 },
+  { name: "羅馬", country: "義大利", lat: 41.9028, lon: 12.4964 },
+  { name: "巴塞隆納", country: "西班牙", lat: 41.3851, lon: 2.1734 },
+  { name: "杜拜", country: "阿聯", lat: 25.2048, lon: 55.2708 },
+  { name: "新加坡", country: "新加坡", lat: 1.3521, lon: 103.8198 },
+  { name: "香港", country: "中國", lat: 22.3193, lon: 114.1694 },
+  { name: "伊斯坦堡", country: "土耳其", lat: 41.0082, lon: 28.9784 }
+]
+)}
+
+function _heritageSites(){return(
+[
+  { name: "長城", country: "中國", lat: 40.4319, lon: 116.5704 },
+  { name: "泰姬瑪哈陵", country: "印度", lat: 27.1751, lon: 78.0421 },
+  { name: "馬丘比丘", country: "秘魯", lat: -13.1631, lon: -72.545 },
+  { name: "吉薩金字塔群", country: "埃及", lat: 29.9792, lon: 31.1342 },
+  { name: "吳哥窟", country: "柬埔寨", lat: 13.4125, lon: 103.8667 },
+  { name: "雅典衛城", country: "希臘", lat: 37.9715, lon: 23.7267 },
+  { name: "佩特拉古城", country: "約旦", lat: 30.3285, lon: 35.4444 },
+  { name: "巨石陣", country: "英國", lat: 51.1789, lon: -1.8262 },
+  { name: "加拉巴哥群島", country: "厄瓜多", lat: -0.9538, lon: -90.9656 },
+  { name: "塞倫蓋蒂國家公園", country: "坦尚尼亞", lat: -2.3333, lon: 34.8333 }
+]
+)}
+
+function _artMuseums(){return(
+[
+  { name: "羅浮宮", country: "法國", lat: 48.8606, lon: 2.3376 },
+  { name: "大英博物館", country: "英國", lat: 51.5194, lon: -0.127 },
+  { name: "大都會藝術博物館", country: "美國", lat: 40.7794, lon: -73.9632 },
+  { name: "烏菲茲美術館", country: "義大利", lat: 43.7687, lon: 11.255 },
+  { name: "普拉多博物館", country: "西班牙", lat: 40.4138, lon: -3.6921 },
+  { name: "艾尔米塔什博物館", country: "俄羅斯", lat: 59.9398, lon: 30.3146 },
+  { name: "阿姆斯特丹國立博物館", country: "荷蘭", lat: 52.36, lon: 4.885218 },
+  { name: "故宮博物院", country: "臺灣", lat: 25.1024, lon: 121.5485 },
+  { name: "現代藝術博物館", country: "美國", lat: 40.7614, lon: -73.9776 },
+  { name: "畢爾包古根漢美術館", country: "西班牙", lat: 43.2686, lon: -2.9339 }
+]
+)}
+
+function _destinations(cityStops,heritageSites,artMuseums){return(
+[
+  ...cityStops.map((d) => ({ ...d, category: "city" })),
+  ...heritageSites.map((d) => ({ ...d, category: "heritage" })),
+  ...artMuseums.map((d) => ({ ...d, category: "museum" }))
+]
+)}
+
+function _categoryColorLookup(destinationCategories){return(
+Object.fromEntries(destinationCategories.map((d) => [d.key, d.color]))
+)}
+
+function _viewof_visibleCategories(Inputs,destinationCategories){return(
+Inputs.select(
+  ["全部" , ...destinationCategories.map((d) => d.key)],
+  {
+    value: "全部",
+    label: "篩選分類",
+    format: (key) =>
+      key === "全部"
+        ? "全部分類"
+        : destinationCategories.find((d) => d.key === key)?.label ?? key
+  }
+)
+)}
+
+function _visibleCategories(Generators, viewof_visibleCategories){return(
+  Generators.input(viewof_visibleCategories)
+)}
+
+function _filteredDestinations(destinations,visibleCategories){return(
+  visibleCategories === "全部"
+    ? destinations
+    : destinations.filter((d) => d.category === visibleCategories)
+)}
+
+function _destinationLegend(html,destinationCategories){return(
+html`<div>
+  ${destinationCategories
+    .map(
+      (d) => `
+        <span class="legend-row">
+          <span class="legend-swatch" style="background:${d.color}"></span>
+          <strong>${d.emoji}</strong>${d.label}
+        </span>
+      `
+    )
+    .join("")}
+</div>`
+)}
+
+function _destinationInfoPanel(html){return(
+  (() => {
+    const panel = html`<div class="selection-panel">點擊地圖上的彩色點，這裡會顯示地點名稱、國家與分類。</div>`;
+    return panel;
+  })()
+)}
+
+function _destinationList(html,filteredDestinations,destinationCategories){return(
+  (() => {
+    const categoryMap = new Map(destinationCategories.map((d) => [d.key, d]));
+    const container = html`<div class="places-panel"></div>`;
+    const sorted = filteredDestinations
+      .slice()
+      .sort((a, b) => a.category.localeCompare(b.category) || a.name.localeCompare(b.name));
+
+    sorted.forEach((d) => {
+      const cat = categoryMap.get(d.category);
+      const card = document.createElement("div");
+      card.className = "place-card";
+      const title = document.createElement("h4");
+      title.innerHTML = `${cat?.emoji ?? ""}${d.name}`;
+      const meta = document.createElement("small");
+      meta.textContent = d.country;
+      const tag = document.createElement("span");
+      tag.className = "tag";
+      tag.innerHTML = `<span class="legend-swatch" style="background:${cat?.color ?? "#ccc"}"></span>${cat?.label ?? d.category}`;
+      card.appendChild(title);
+      card.appendChild(meta);
+      card.appendChild(document.createElement("br"));
+      card.appendChild(tag);
+      container.appendChild(card);
+    });
+
+    return container;
+  })()
 )}
 
 function _destinationsIntro(md){return(

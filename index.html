@@ -3,12 +3,41 @@
 <title>Timezones Globe</title>
 <link rel="stylesheet" type="text/css" href="./inspector.css">
 <body>
-<script type="module">
+  <main class="page">
+    <section id="hero"></section>
+    <section id="controls" class="controls"></section>
+    <section id="globe"></section>
+    <section id="meta" class="meta">
+      <div id="inspo"></div>
+    </section>
+    <section id="dest-intro"></section>
+    <section id="filters" class="filters"></section>
+    <section id="legend"></section>
+    <section id="selection"></section>
+    <section id="list"></section>
+  </main>
 
-import define from "./index.js";
-import {Runtime, Library, Inspector} from "./runtime.js";
+  <script type="module">
+    import define from "./index.js";
+    import { Runtime, Inspector } from "./runtime.js";
 
-const runtime = new Runtime();
-const main = runtime.module(define, Inspector.into(document.body));
+    const mounts = {
+      intro: document.querySelector("#hero"),
+      inspo: document.querySelector("#inspo"),
+      globe: document.querySelector("#globe"),
+      "viewof longitude": document.querySelector("#controls"),
+      "viewof latitude": document.querySelector("#controls"),
+      destinationsIntro: document.querySelector("#dest-intro"),
+      "viewof visibleCategories": document.querySelector("#filters"),
+      destinationLegend: document.querySelector("#legend"),
+      destinationInfoPanel: document.querySelector("#selection"),
+      destinationList: document.querySelector("#list")
+    };
 
-</script>
+    const runtime = new Runtime();
+    runtime.module(define, (name) => {
+      const target = mounts[name];
+      if (!target) return null;
+      return new Inspector(target.appendChild(document.createElement("div")));
+    });
+  </script>
